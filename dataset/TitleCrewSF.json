@@ -9,7 +9,7 @@
 		"type": "SnowflakeV2Table",
 		"schema": [],
 		"typeProperties": {
-			"schema": "IMDB_Schema",
+			"schema": "IMDB_SCHEMA",
 			"table": "TITLE_CREW"
 		}
 	}
