@@ -1,0 +1,23 @@
+{
+	"name": "TITLE_EPISODE_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageMidTerm",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "title.episode.tsv",
+				"fileSystem": "bronze"
+			},
+			"columnDelimiter": "\t",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
