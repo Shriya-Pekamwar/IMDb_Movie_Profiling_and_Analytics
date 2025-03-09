@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorageMidTerm",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://midtermstorageteam2dl.dfs.core.windows.net/"
+		}
+	}
+}
