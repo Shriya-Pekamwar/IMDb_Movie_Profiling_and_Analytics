@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "CrewParquetToSF",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CrewParquetToSF",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
