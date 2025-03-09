@@ -1,0 +1,40 @@
+{
+	"name": "title_ratingsDL",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "title_ratings",
+						"type": "DatasetReference"
+					},
+					"name": "DataSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "TitleRatingsDerivedColumn"
+				},
+				{
+					"name": "TitleRatingsFilter"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          tconst as string,",
+				"          averageRating as double,",
+				"          numVotes as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> DataSource",
+				"DataSource derive(tconst = iif(isNull(tconst) || tconst == '', 'UNKNOWN_ID', tconst),",
+				"          averageRating = coalesce(toFloat(averageRating), 0.0),",
+				"          numVotes = coalesce(toInteger(numVotes), 0)) ~> TitleRatingsDerivedColumn",
+				"TitleRatingsDerivedColumn filter(!isNull(tconst) && length(trim(tconst)) > 0 && !isNull(numVotes)) ~> TitleRatingsFilter"
+			]
+		}
+	}
+}
