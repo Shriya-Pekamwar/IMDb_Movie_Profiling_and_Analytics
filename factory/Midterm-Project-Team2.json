@@ -1,0 +1,9 @@
+{
+	"name": "Midterm-Project-Team2",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "382743c0-cc85-4faf-8eb0-d6baabc230ce",
+		"tenantId": "a8eec281-aaa3-4dae-ac9b-9a398b9215e7"
+	}
+}
