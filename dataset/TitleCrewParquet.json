@@ -2,16 +2,16 @@
 	"name": "TitleCrewParquet",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage3",
+			"referenceName": "AzureBlobStorage2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
+				"type": "AzureBlobStorageLocation",
 				"fileName": "Title.Crew_P.parquet",
-				"fileSystem": "silver"
+				"container": "silver"
 			},
 			"compressionCodec": "snappy"
 		},
