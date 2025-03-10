@@ -1,0 +1,20 @@
+{
+	"name": "TitlePrincipalsParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Title.Principals_P.parquet",
+				"container": "silver"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
