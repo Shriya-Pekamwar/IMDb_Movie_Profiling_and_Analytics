@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "TitleAkasDF",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -9,7 +9,7 @@
 						"referenceName": "TitleAkasSF",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "TitleAkasDF"
 				}
 			],
 			"sinks": [
@@ -44,8 +44,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> source1",
-				"source1 derive(ATTRIBUTES = split(ATTRIBUTES, ','),",
+				"     format: 'table') ~> TitleAkasDF",
+				"TitleAkasDF derive(ATTRIBUTES = split(ATTRIBUTES, ','),",
 				"          ISORIGINALTITLE = iif(ISORIGINALTITLE == true(), 1, 0)) ~> derivedColumn1",
 				"derivedColumn1 foldDown(unroll(ATTRIBUTES),",
 				"     mapColumn(",
