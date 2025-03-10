@@ -39,6 +39,41 @@
 							"type": "LinkedServiceReference"
 						},
 						"path": "gold"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "directors",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DIRECTORS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "writers",
+									"type": "String"
+								},
+								"sink": {
+									"name": "WRITERS",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -57,6 +92,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
