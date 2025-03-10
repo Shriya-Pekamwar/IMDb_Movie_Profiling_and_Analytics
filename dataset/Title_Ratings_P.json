@@ -1,0 +1,20 @@
+{
+	"name": "Title_Ratings_P",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IMDBBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Title.Ratings_P.parquet",
+				"container": "silver"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

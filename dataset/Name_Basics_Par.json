@@ -1,0 +1,20 @@
+{
+	"name": "Name_Basics_Par",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IMDBBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Name.Basics_P.parquet",
+				"container": "silver"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
