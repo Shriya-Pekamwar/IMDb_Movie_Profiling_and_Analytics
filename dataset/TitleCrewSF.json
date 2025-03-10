@@ -2,7 +2,7 @@
 	"name": "TitleCrewSF",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "MidtermSnowflake",
+			"referenceName": "Snowflake3",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
