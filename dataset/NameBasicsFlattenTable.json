@@ -1,5 +1,5 @@
 {
-	"name": "IMDBSnowflakeNameBasicsFlattenTable",
+	"name": "NameBasicsFlattenTable",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "IMDBSnowflake",
