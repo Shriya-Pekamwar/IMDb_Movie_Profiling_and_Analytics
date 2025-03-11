@@ -56,7 +56,6 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     stageInsert: true,",
 				"     mapColumn(",
 				"          DATE,",
 				"          DAY_OF_WEEK,",
