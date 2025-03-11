@@ -1,0 +1,132 @@
+{
+	"name": "Bridge_Movie",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SnowflakeTable10",
+						"type": "DatasetReference"
+					},
+					"name": "DimTitle"
+				},
+				{
+					"dataset": {
+						"referenceName": "TitleBasicsFlattenSF",
+						"type": "DatasetReference"
+					},
+					"name": "FlattenTitle"
+				},
+				{
+					"dataset": {
+						"referenceName": "SnowflakeTable12",
+						"type": "DatasetReference"
+					},
+					"name": "DimGenre"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SnowflakeTable13",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "surrogateKey1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TITLE_SK as decimal(10,0),",
+				"          TCONST as string,",
+				"          PRIMARY_TITLE as string,",
+				"          ORIGINAL_TITLE as string,",
+				"          START_YEAR as decimal(38,0),",
+				"          END_YEAR as decimal(38,0),",
+				"          TITLE_TYPE as string,",
+				"          IS_ADULT as boolean,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> DimTitle",
+				"source(output(",
+				"          TCONST as string,",
+				"          TITLETYPE as string,",
+				"          PRIMARYTITLE as string,",
+				"          ORIGINALTITLE as string,",
+				"          ISADULT as boolean,",
+				"          STARTYEAR as decimal(38,0),",
+				"          ENDYEAR as decimal(38,0),",
+				"          RUNTIMEMINUTES as decimal(38,0),",
+				"          GENRES as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> FlattenTitle",
+				"source(output(",
+				"          GENRE_SK as decimal(10,0),",
+				"          GENRE as string,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> DimGenre",
+				"FlattenTitle, DimGenre join(GENRES == GENRE,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"DimTitle, join1 join(DimTitle@TCONST == FlattenTitle@TCONST,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join2",
+				"join2 select(mapColumn(",
+				"          TCONST = DimTitle@TCONST,",
+				"          GENRE_SK,",
+				"          DI_JOB_ID = DimGenre@DI_JOB_ID,",
+				"          DI_LOAD_DT = DimGenre@DI_LOAD_DT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 keyGenerate(output(BRIDGE_MOVIE_SK as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"surrogateKey1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          TCONST,",
+				"          GENRE_SK,",
+				"          DI_JOB_ID,",
+				"          DI_LOAD_DT,",
+				"          BRIDGE_MOVIE_SK",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

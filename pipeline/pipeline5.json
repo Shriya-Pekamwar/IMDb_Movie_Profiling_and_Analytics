@@ -3,11 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Data flow1",
+				"name": "Bridge_Movie",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
-					"timeout": "0.02:00:00",
+					"timeout": "0.12:00:00",
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "LoadFactMovie",
+						"referenceName": "Bridge_Movie",
 						"type": "DataFlowReference"
 					},
 					"compute": {
