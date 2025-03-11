@@ -1,0 +1,16 @@
+{
+	"name": "DateDimSnowflakeTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IMDBSnowflake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "DATE_DIM"
+		}
+	}
+}
