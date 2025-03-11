@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Title_Ratings",
-				"type": "Copy",
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -15,72 +15,16 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "ParquetSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "ParquetReadSettings"
-						}
+					"dataflow": {
+						"referenceName": "LoadGenreDim",
+						"type": "DataFlowReference"
 					},
-					"sink": {
-						"type": "SnowflakeV2Sink",
-						"importSettings": {
-							"type": "SnowflakeImportCopyCommand"
-						}
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "tconst",
-									"type": "String"
-								},
-								"sink": {
-									"name": "TCONST",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "averageRating",
-									"type": "Double"
-								},
-								"sink": {
-									"name": "AVERAGERATING",
-									"type": "Double"
-								}
-							},
-							{
-								"source": {
-									"name": "numVotes",
-									"type": "Int32"
-								},
-								"sink": {
-									"name": "NUMVOTES",
-									"type": "Int64"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "Title_Ratings_P",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "IMDBSnowflakeTitleRatingsTable",
-						"type": "DatasetReference"
-					}
-				]
+					"traceLevel": "Coarse"
+				}
 			}
 		],
 		"annotations": []
