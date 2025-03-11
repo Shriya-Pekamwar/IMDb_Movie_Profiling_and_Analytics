@@ -1,0 +1,16 @@
+{
+	"name": "DIM_TITLE_SF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MidtermSnowflake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "DIM_TITLE"
+		}
+	}
+}
