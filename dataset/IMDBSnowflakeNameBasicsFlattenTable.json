@@ -1,0 +1,16 @@
+{
+	"name": "IMDBSnowflakeNameBasicsFlattenTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IMDBSnowflake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "NAME_BASICS_FLATTEN"
+		}
+	}
+}

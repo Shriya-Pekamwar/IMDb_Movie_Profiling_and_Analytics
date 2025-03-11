@@ -1,0 +1,16 @@
+{
+	"name": "IMDBSnowflakeTitleRatingsTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IMDBSnowflake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "TITLE_RATINGS"
+		}
+	}
+}

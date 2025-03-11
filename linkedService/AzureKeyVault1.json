@@ -6,7 +6,10 @@
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
+
 			"baseUrl": "https://damg2025kv.vault.azure.net/"
+
+
 		}
 	}
 }
