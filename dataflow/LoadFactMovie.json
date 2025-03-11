@@ -20,20 +20,6 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "Region_Dim",
-						"type": "DatasetReference"
-					},
-					"name": "source3"
-				},
-				{
-					"dataset": {
-						"referenceName": "LanguageDim",
-						"type": "DatasetReference"
-					},
-					"name": "source4"
-				},
-				{
-					"dataset": {
 						"referenceName": "TitleDim",
 						"type": "DatasetReference"
 					},
@@ -62,12 +48,6 @@
 				},
 				{
 					"name": "join2"
-				},
-				{
-					"name": "join3"
-				},
-				{
-					"name": "join4"
 				},
 				{
 					"name": "join5"
@@ -109,26 +89,6 @@
 				"     validateSchema: false,",
 				"     format: 'table') ~> source2",
 				"source(output(",
-				"          REGION_CODE as string,",
-				"          REGION_NAME as string,",
-				"          DI_JOB_ID as string,",
-				"          DI_LOAD_DT as date,",
-				"          REGION_DIM_SK as decimal(10,0)",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     format: 'table') ~> source3",
-				"source(output(",
-				"          LANGUAGE_CODE as string,",
-				"          LANGUAGE_NAME as string,",
-				"          DI_JOB_ID as string,",
-				"          DI_LOAD_DT as date,",
-				"          LANGUAGE_DIM_SK as decimal(10,0)",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     format: 'table') ~> source4",
-				"source(output(",
 				"          TITLE_SK as decimal(10,0),",
 				"          TCONST as string,",
 				"          PRIMARY_TITLE as string,",
@@ -155,27 +115,12 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1, source3 join(1==1,",
-				"     joinType:'cross',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join2",
-				"join2, source4 join(1==1,",
-				"     joinType:'cross',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join3",
-				"join3, source5 join(PRIMARYTITLE == PRIMARY_TITLE",
-				"     && ORIGINALTITLE == ORIGINAL_TITLE",
-				"     && STARTYEAR == START_YEAR",
-				"     && ENDYEAR == END_YEAR",
-				"     && TITLETYPE == TITLE_TYPE",
-				"     && ISADULT == IS_ADULT,",
+				"join1, source5 join(TITLETYPE == TITLE_TYPE,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join4",
-				"join4, FactMaxID join(1==1,",
+				"     broadcast: 'auto')~> join2",
+				"join2, FactMaxID join(1==1,",
 				"     joinType:'cross',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -186,8 +131,6 @@
 				"          EPISODENUMBER,",
 				"          TITLETYPE,",
 				"          RUNTIMEMINUTES,",
-				"          REGION_DIM_SK,",
-				"          LANGUAGE_DIM_SK,",
 				"          TCONST = source5@TCONST,",
 				"          MOVIE_SK",
 				"     ),",
@@ -212,8 +155,6 @@
 				"          EPISODE_NUMBER = EPISODENUMBER,",
 				"          TITLE_TYPE = TITLETYPE,",
 				"          RUNTIME_MINUTES = RUNTIMEMINUTES,",
-				"          REGION_DIM_SK,",
-				"          LANGUAGE_DIM_SK,",
 				"          TCONST,",
 				"          MOVIE_SK,",
 				"          DI_JOB_ID,",
