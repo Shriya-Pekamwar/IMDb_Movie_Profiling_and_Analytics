@@ -54,7 +54,14 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     stageInsert: true) ~> sink1"
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          REGION_CODE = Region_Code,",
+				"          REGION_NAME = Region_Name,",
+				"          REGION_DIM_SK,",
+				"          DI_LOAD_DT,",
+				"          DI_JOB_ID",
+				"     )) ~> sink1"
 			]
 		}
 	}
