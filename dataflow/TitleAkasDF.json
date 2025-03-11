@@ -1,0 +1,78 @@
+{
+	"name": "TitleAkasDF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TitleAkasSF",
+						"type": "DatasetReference"
+					},
+					"name": "TitleAkasDF"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TitleAkasFLatten",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TITLEID as string,",
+				"          ORDERING as decimal(38,0),",
+				"          TITLE as string,",
+				"          REGION as string,",
+				"          LANGUAGE as string,",
+				"          TYPES as string,",
+				"          ATTRIBUTES as string,",
+				"          ISORIGINALTITLE as boolean,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> TitleAkasDF",
+				"TitleAkasDF derive(ATTRIBUTES = split(ATTRIBUTES, ','),",
+				"          ISORIGINALTITLE = iif(ISORIGINALTITLE == true(), 1, 0)) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unroll(ATTRIBUTES),",
+				"     mapColumn(",
+				"          TITLEID,",
+				"          ORDERING,",
+				"          TITLE,",
+				"          REGION,",
+				"          LANGUAGE,",
+				"          TYPES,",
+				"          ATTRIBUTES,",
+				"          ISORIGINALTITLE,",
+				"          DI_JOB_ID,",
+				"          DI_LOAD_DT",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true) ~> sink1"
+			]
+		}
+	}
+}

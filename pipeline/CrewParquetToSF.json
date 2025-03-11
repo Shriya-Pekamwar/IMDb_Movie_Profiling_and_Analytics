@@ -1,0 +1,805 @@
+{
+	"name": "CrewParquetToSF",
+	"properties": {
+		"activities": [
+			{
+				"name": "CrewParquetToSF",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "gold"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "directors",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DIRECTORS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "writers",
+									"type": "String"
+								},
+								"sink": {
+									"name": "WRITERS",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TitleCrewParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TitleCrewSF",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "TitleBasicsParquetToSF",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "gold"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "titleType",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TITLETYPE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "primaryTitle",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PRIMARYTITLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "originalTitle",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORIGINALTITLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "isAdult",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "ISADULT",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "startYear",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "STARTYEAR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "endYear",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ENDYEAR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "runtimeMinutes",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "RUNTIMEMINUTES",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "genres",
+									"type": "String"
+								},
+								"sink": {
+									"name": "GENRES",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TitleBasicsParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TitleBasicsSF",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "CrewFlatten",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "TitleCrewDF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
+			},
+			{
+				"name": "TitleBasicsFlatten",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "TitleBasicsDF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
+			},
+			{
+				"name": "TitleEpisodeParquetToSF",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"additionalColumns": [
+							{
+								"name": "DI_JOB_ID",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "DI_LOAD_DT",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "gold"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "parentTconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PARENTTCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "seasonNumber",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "SEASONNUMBER",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "episodeNumber",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "EPISODENUMBER",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "DI_JOB_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DI_JOB_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DI_LOAD_DT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DI_LOAD_DT",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TitleEpisodeParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TitleEpisodeSF",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "PrincipalsParquetToSF",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"additionalColumns": [
+							{
+								"name": "DI_JOB_ID",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "DI_LOAD_DT",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "gold"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ordering",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ORDERING",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "nconst",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NCONST",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CATEGORY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "job",
+									"type": "String"
+								},
+								"sink": {
+									"name": "JOB",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "characters",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CHARACTERS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DI_JOB_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DI_JOB_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DI_LOAD_DT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DI_LOAD_DT",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TitlePrincipalsParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TitlePrincipalsSF",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"additionalColumns": [
+							{
+								"name": "DI_LOAD_DT",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "DI_JOB_ID",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "gold"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "titleId",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TITLEID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ordering",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ORDERING",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "title",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TITLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "region",
+									"type": "String"
+								},
+								"sink": {
+									"name": "REGION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "language",
+									"type": "String"
+								},
+								"sink": {
+									"name": "LANGUAGE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "types",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TYPES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "attributes",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ATTRIBUTES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "isOriginalTitle",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "ISORIGINALTITLE",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "DI_JOB_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DI_JOB_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DI_LOAD_DT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DI_LOAD_DT",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TitleAkasParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TitleAkasSF",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "TitleAkasDF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
+			},
+			{
+				"name": "Copy data2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"enableStaging": false
+				}
+			}
+		],
+		"annotations": []
+	}
+}

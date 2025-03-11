@@ -6,7 +6,9 @@
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
-			"url": "https://damg7370sprin2025.dfs.core.windows.net/"
+
+			"url": "https://damg2025.dfs.core.windows.net/"
+
 		}
 	}
 }

@@ -1,0 +1,20 @@
+{
+	"name": "TitleBasicsParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Title.Basics_P.parquet",
+				"container": "silver"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

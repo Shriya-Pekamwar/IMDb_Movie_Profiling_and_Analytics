@@ -1,0 +1,70 @@
+{
+	"name": "TitleCrewDF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TitleCrewSF",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CrewFlattenSF",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TCONST as string,",
+				"          DIRECTORS as string,",
+				"          WRITERS as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> source1",
+				"source1 derive(WRITERS = split(WRITERS,','),",
+				"          DIRECTORS = split(DIRECTORS, ',')) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unrollMultiple(DIRECTORS,WRITERS),",
+				"     mapColumn(",
+				"          TCONST,",
+				"          DIRECTORS,",
+				"          WRITERS",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          TCONST,",
+				"          DIRECTORS,",
+				"          WRITERS",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
