@@ -1,0 +1,16 @@
+{
+	"name": "SnowflakeTable5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "IMDBSnowflake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "LANGUAGE_DIM"
+		}
+	}
+}
