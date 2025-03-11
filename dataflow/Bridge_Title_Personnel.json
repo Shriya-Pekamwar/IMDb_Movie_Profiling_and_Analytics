@@ -1,5 +1,5 @@
 {
-	"name": "dataflow3",
+	"name": "Bridge_Title_Personnel",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -26,10 +26,30 @@
 					"name": "source3"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "BRIDGE_TITLE_PERSONNEL_SF",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "join1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "surrogateKey1"
 				}
 			],
 			"scriptLines": [
@@ -79,7 +99,46 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1"
+				"     broadcast: 'auto')~> join1",
+				"join1, source3 join(source1@NCONST == source3@NCONST,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join2",
+				"join2 select(mapColumn(",
+				"          TITLE_SK,",
+				"          PERSONNEL_SK,",
+				"          CATEGORY,",
+				"          JOB,",
+				"          CHARACTERS",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> select1",
+				"surrogateKey1 derive(BRIDGE_TITLE_PERSONNEL_SK = BRIDGE_TITLE_PERSONNEL_SK,",
+				"          DI_JOB_ID = uuid(),",
+				"          DI_LOAD_DT = currentDate()) ~> derivedColumn1",
+				"select1 keyGenerate(output(BRIDGE_TITLE_PERSONNEL_SK as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          BRIDGE_TITLE_PERSONNEL_SK,",
+				"          TITLE_SK,",
+				"          PERSONNEL_SK,",
+				"          CATEGORY,",
+				"          JOB,",
+				"          CHARACTERS,",
+				"          DI_JOB_ID,",
+				"          DI_LOAD_DT",
+				"     )) ~> sink1"
 			]
 		}
 	}
