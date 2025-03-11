@@ -64,7 +64,7 @@
 				"          GENRE = GENRES,",
 				"          GENRE_SK,",
 				"          DI_LOAD_DT,",
-				"          {DI_JOB_ID }",
+				"          DI_JOB_ID = {DI_JOB_ID }",
 				"     )) ~> sink1"
 			]
 		}
