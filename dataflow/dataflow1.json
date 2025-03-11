@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "IMDBSnowflakeNameBasicsFlattenTable",
+						"referenceName": "NameBasicsFlattenTable",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
