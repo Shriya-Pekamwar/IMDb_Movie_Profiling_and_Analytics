@@ -53,7 +53,16 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     stageInsert: true) ~> sink1"
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          DATE,",
+				"          DAY_OF_WEEK,",
+				"          MONTH_NAME,",
+				"          YEAR_NUM,",
+				"          DATE_DIM_SK = Date_SK,",
+				"          DI_LOAD_DT,",
+				"          DI_JOB_ID",
+				"     )) ~> sink1"
 			]
 		}
 	}
