@@ -1,5 +1,5 @@
 {
-	"name": "Load",
+	"name": "LoadFactMovie",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
