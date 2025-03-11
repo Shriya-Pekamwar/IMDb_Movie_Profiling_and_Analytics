@@ -77,6 +77,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -192,7 +195,8 @@
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 derive(DI_JOB_ID = uuid(),",
 				"          DI_LOAD_DT = currentDate()) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 filter(MOVIE_SK >100) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
