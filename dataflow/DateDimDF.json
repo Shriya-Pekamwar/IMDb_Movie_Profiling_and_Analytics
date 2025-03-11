@@ -58,7 +58,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     stageInsert: true,",
 				"     mapColumn(",
-				"          DATE = DATE_DIM_SK,",
+				"          DATE,",
 				"          DAY_OF_WEEK,",
 				"          MONTH_NAME,",
 				"          YEAR_NUM,",
