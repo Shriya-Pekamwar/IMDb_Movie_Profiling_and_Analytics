@@ -47,6 +47,9 @@
 				},
 				{
 					"name": "surrogateKey1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -109,7 +112,9 @@
 				"select1 keyGenerate(output(BRIDGE_MOVIE_SK as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
-				"surrogateKey1 sink(allowSchemaDrift: true,",
+				"surrogateKey1 filter(GENRE_SK > 100",
+				") ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
