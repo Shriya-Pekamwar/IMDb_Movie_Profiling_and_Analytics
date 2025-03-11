@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "LoadGenreDim",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
