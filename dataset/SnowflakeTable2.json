@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "IMDB_SCHEMA",
-			"table": "DATE_DIM"
+			"table": "LANGUAGE_DIM"
 		}
 	}
 }
