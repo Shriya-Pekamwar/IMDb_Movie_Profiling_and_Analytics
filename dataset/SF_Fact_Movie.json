@@ -1,0 +1,16 @@
+{
+	"name": "SF_Fact_Movie",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "FACT_MOVIE"
+		}
+	}
+}
