@@ -1,0 +1,80 @@
+{
+	"name": "dataflow3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Dim_Genre",
+						"type": "DatasetReference"
+					},
+					"name": "GenreDim"
+				},
+				{
+					"dataset": {
+						"referenceName": "Title_Dim",
+						"type": "DatasetReference"
+					},
+					"name": "TitleDim"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "surrogateKey1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          GENRE_SK as decimal(10,0),",
+				"          GENRE as string,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> GenreDim",
+				"source(output(",
+				"          PERSONNEL_SK as decimal(10,0),",
+				"          TCONST as string,",
+				"          PRIMARY_TITLE as string,",
+				"          ORIGINAL_TITLE as string,",
+				"          START_YEAR as decimal(38,0),",
+				"          END_YEAR as decimal(38,0),",
+				"          TITLE_TYPE as string,",
+				"          IS_ADULT as boolean,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> TitleDim",
+				"GenreDim, TitleDim join(GENRE == PRIMARY_TITLE,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"surrogateKey1 derive(DI_LOAD_DT = currentTimestamp(),",
+				"          DI_JOB_ID = uuid()) ~> derivedColumn1",
+				"join1 keyGenerate(output(BRIDGE_MOVIE_SK as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
