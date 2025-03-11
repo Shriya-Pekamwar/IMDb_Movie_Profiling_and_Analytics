@@ -6,47 +6,48 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Dim_Genre",
+						"referenceName": "TitlePrincipalsSF",
 						"type": "DatasetReference"
 					},
-					"name": "GenreDim"
+					"name": "source1"
 				},
 				{
 					"dataset": {
-						"referenceName": "Title_Dim",
+						"referenceName": "DIM_TITLE_SF",
 						"type": "DatasetReference"
 					},
-					"name": "TitleDim"
-				}
-			],
-			"sinks": [
+					"name": "source2"
+				},
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "PersonnelDim",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
 				}
 			],
+			"sinks": [],
 			"transformations": [
 				{
 					"name": "join1"
-				},
-				{
-					"name": "derivedColumn1"
-				},
-				{
-					"name": "surrogateKey1"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          GENRE_SK as decimal(10,0),",
-				"          GENRE as string,",
+				"          TCONST as string,",
+				"          ORDERING as decimal(38,0),",
+				"          NCONST as string,",
+				"          CATEGORY as string,",
+				"          JOB as string,",
+				"          CHARACTERS as string,",
 				"          DI_JOB_ID as string,",
 				"          DI_LOAD_DT as date",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> GenreDim",
+				"     format: 'table') ~> source1",
 				"source(output(",
-				"          PERSONNEL_SK as decimal(10,0),",
+				"          TITLE_SK as decimal(10,0),",
 				"          TCONST as string,",
 				"          PRIMARY_TITLE as string,",
 				"          ORIGINAL_TITLE as string,",
@@ -59,21 +60,26 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> TitleDim",
-				"GenreDim, TitleDim join(GENRE == PRIMARY_TITLE,",
+				"     format: 'table') ~> source2",
+				"source(output(",
+				"          PERSONNEL_SK as decimal(10,0),",
+				"          NCONST as string,",
+				"          PRIMARY_NAME as string,",
+				"          BIRTH_YEAR as decimal(38,0),",
+				"          DEATH_YEAR as decimal(38,0),",
+				"          PRIMARY_PROFESSION as string,",
+				"          KNOWN_FOR_TITLES as string,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> source3",
+				"source1, source2 join(source1@TCONST == source2@TCONST,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"surrogateKey1 derive(DI_LOAD_DT = currentTimestamp(),",
-				"          DI_JOB_ID = uuid()) ~> derivedColumn1",
-				"join1 keyGenerate(output(BRIDGE_MOVIE_SK as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     broadcast: 'auto')~> join1"
 			]
 		}
 	}
