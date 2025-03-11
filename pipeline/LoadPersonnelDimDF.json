@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "LoadPersonnelDimDF",
 	"properties": {
 		"activities": [
 			{
@@ -87,6 +87,8 @@
 			{
 				"name": "LoadGenreDimDF",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.00:30:00",
@@ -99,6 +101,30 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "LoadGenreDim",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
+			},
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "LoadPersonnelDim",
 						"type": "DataFlowReference"
 					},
 					"compute": {
