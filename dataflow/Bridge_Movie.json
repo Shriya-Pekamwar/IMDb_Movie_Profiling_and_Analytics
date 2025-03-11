@@ -50,6 +50,12 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "select3"
 				}
 			],
 			"scriptLines": [
@@ -67,7 +73,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> DimTitle",
+				"     query: 'SELECT * FROM DIM_TITLE LIMIT 50',",
+				"     format: 'query') ~> DimTitle",
 				"source(output(",
 				"          TCONST as string,",
 				"          TITLETYPE as string,",
@@ -81,7 +88,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> FlattenTitle",
+				"     query: 'SELECT * FROM TITLE_BASICS_FLATTEN LIMIT 50',",
+				"     format: 'query') ~> FlattenTitle",
 				"source(output(",
 				"          GENRE_SK as decimal(10,0),",
 				"          GENRE as string,",
@@ -90,13 +98,14 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> DimGenre",
+				"     query: 'SELECT * FROM GENRE_DIM LIMIT 50',",
+				"     format: 'query') ~> DimGenre",
 				"FlattenTitle, DimGenre join(GENRES == GENRE,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"DimTitle, join1 join(DimTitle@TCONST == FlattenTitle@TCONST,",
+				"select3, select2 join(select3@TCONST == select2@TCONST,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -112,6 +121,18 @@
 				"     stepValue: 1L) ~> surrogateKey1",
 				"surrogateKey1 derive(DI_JOB_ID = uuid(),",
 				"          DI_LOAD_DT = currentTimestamp()) ~> derivedColumn1",
+				"join1 select(mapColumn(",
+				"          TCONST,",
+				"          GENRE_SK",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"DimTitle select(mapColumn(",
+				"          TITLE_SK,",
+				"          TCONST",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
