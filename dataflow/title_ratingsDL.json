@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "DataSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "DIM_TITLE_SF",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [],
@@ -19,6 +26,9 @@
 				},
 				{
 					"name": "TitleRatingsFilter"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -30,10 +40,18 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> DataSource",
-				"DataSource derive(tconst = iif(isNull(tconst) || tconst == '', 'UNKNOWN_ID', tconst),",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table') ~> source1",
+				"join1 derive(tconst = iif(isNull(tconst) || tconst == '', 'UNKNOWN_ID', tconst),",
 				"          averageRating = coalesce(toFloat(averageRating), 0.0),",
 				"          numVotes = coalesce(toInteger(numVotes), 0)) ~> TitleRatingsDerivedColumn",
-				"TitleRatingsDerivedColumn filter(!isNull(tconst) && length(trim(tconst)) > 0 && !isNull(numVotes)) ~> TitleRatingsFilter"
+				"TitleRatingsDerivedColumn filter(!isNull(tconst) && length(trim(tconst)) > 0 && !isNull(numVotes)) ~> TitleRatingsFilter",
+				"DataSource, source1 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1"
 			]
 		}
 	}
