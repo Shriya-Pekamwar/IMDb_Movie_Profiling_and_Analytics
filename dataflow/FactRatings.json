@@ -37,6 +37,12 @@
 				},
 				{
 					"name": "surrogateKey1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -47,7 +53,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> TitleRatings",
+				"     query: 'SELECT * FROM TITLE_RATINGS LIMIT 50',",
+				"     format: 'query') ~> TitleRatings",
 				"source(output(",
 				"          TITLE_SK as decimal(10,0),",
 				"          TCONST as string,",
@@ -62,9 +69,10 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table') ~> DimTitle",
-				"TitleRatings, DimTitle join(TitleRatings@TCONST == DimTitle@TCONST,",
-				"     joinType:'inner',",
+				"     query: 'SELECT * FROM DIM_TITLE LIMIT 50',",
+				"     format: 'query') ~> DimTitle",
+				"TitleRatings, select2 join(true(),",
+				"     joinType:'cross',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
@@ -72,20 +80,28 @@
 				"          AVERAGERATING,",
 				"          NUMVOTES,",
 				"          TITLE_SK,",
-				"          DI_JOB_ID,",
-				"          DI_LOAD_DT",
+				"          TCONST = select2@TCONST",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 keyGenerate(output(FACT_RATINGS_SK as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
-				"surrogateKey1 sink(allowSchemaDrift: true,",
+				"DimTitle select(mapColumn(",
+				"          TITLE_SK,",
+				"          TCONST",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"surrogateKey1 derive(DI_JOB_ID = uuid(),",
+				"          DI_LOAD_DT = currentTimestamp()) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
+				"     truncate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -94,9 +110,9 @@
 				"          AVERAGE_RATING = AVERAGERATING,",
 				"          NUM_VOTES = NUMVOTES,",
 				"          TITLE_SK,",
+				"          FACT_RATINGS_SK,",
 				"          DI_JOB_ID,",
-				"          DI_LOAD_DT,",
-				"          FACT_RATINGS_SK",
+				"          DI_LOAD_DT",
 				"     )) ~> sink1"
 			]
 		}
