@@ -37,6 +37,9 @@
 				},
 				{
 					"name": "surrogateKey1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -70,32 +73,32 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
 				"join1 select(mapColumn(",
-				"          GENRE,",
-				"          DI_JOB_ID = source1@DI_JOB_ID,",
-				"          DI_LOAD_DT = source1@DI_LOAD_DT,",
+				"          GENRE_SK,",
 				"          TITLE_SK",
 				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> select1",
 				"select1 keyGenerate(output(BRIDGE_MOVIE_SK as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
-				"surrogateKey1 sink(allowSchemaDrift: true,",
+				"surrogateKey1 derive(BRIDGE_MOVIE_SK = BRIDGE_MOVIE_SK,",
+				"          DI_JOB_ID = uuid(),",
+				"          DI_LOAD_DT = currentDate()) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
+				"     truncate:true,",
 				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
 				"     stageInsert: true,",
 				"     mapColumn(",
-				"          GENRE_SK = GENRE,",
-				"          DI_JOB_ID,",
-				"          DI_LOAD_DT,",
+				"          BRIDGE_MOVIE_SK,",
+				"          GENRE_SK,",
 				"          TITLE_SK,",
-				"          BRIDGE_MOVIE_SK",
+				"          DI_JOB_ID,",
+				"          DI_LOAD_DT",
 				"     )) ~> sink1"
 			]
 		}
