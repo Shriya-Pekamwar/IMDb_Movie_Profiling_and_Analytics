@@ -98,7 +98,7 @@
 				"          GENRE_SK,",
 				"          TITLE_SK,",
 				"          DI_JOB_ID,",
-				"          DI_LOAD_DT",
+				"          DI_LOAD_DATE = DI_LOAD_DT",
 				"     )) ~> sink1"
 			]
 		}
