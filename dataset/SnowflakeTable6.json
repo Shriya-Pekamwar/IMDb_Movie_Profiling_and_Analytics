@@ -7,10 +7,39 @@
 		},
 		"annotations": [],
 		"type": "SnowflakeV2Table",
-		"schema": [],
+		"schema": [
+			{
+				"name": "TCONST",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "PARENTTCONST",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "SEASONNUMBER",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "EPISODENUMBER",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "DI_JOB_ID",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "DI_LOAD_DT",
+				"type": "DATE"
+			}
+		],
 		"typeProperties": {
 			"schema": "IMDB_SCHEMA",
-			"table": "GENRE_DIM"
+			"table": "TITLE_EPISODE"
 		}
 	}
 }
