@@ -1,0 +1,16 @@
+{
+	"name": "BRIDGE_MOVIE_SF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MidtermSnowflake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "BRIDGE_MOVIE"
+		}
+	}
+}
