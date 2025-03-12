@@ -1,5 +1,5 @@
 {
-	"name": "dataflow5",
+	"name": "LOAD_BRIDGE_MOVIE",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
