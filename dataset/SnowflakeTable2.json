@@ -2,7 +2,7 @@
 	"name": "SnowflakeTable2",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "IMDBSnowflake",
+			"referenceName": "Snowflake3",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
