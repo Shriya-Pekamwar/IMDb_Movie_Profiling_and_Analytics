@@ -2,7 +2,7 @@
 	"name": "DIM_TITLE_SF",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "MidtermSnowflake",
+			"referenceName": "Snowflake3",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
