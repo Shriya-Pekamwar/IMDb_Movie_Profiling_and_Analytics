@@ -20,13 +20,6 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "TitleDim",
-						"type": "DatasetReference"
-					},
-					"name": "source5"
-				},
-				{
-					"dataset": {
 						"referenceName": "FactMovie",
 						"type": "DatasetReference"
 					},
@@ -47,19 +40,10 @@
 					"name": "join1"
 				},
 				{
-					"name": "join2"
-				},
-				{
 					"name": "join5"
 				},
 				{
 					"name": "select1"
-				},
-				{
-					"name": "derivedColumn1"
-				},
-				{
-					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -89,21 +73,6 @@
 				"     validateSchema: false,",
 				"     format: 'table') ~> source2",
 				"source(output(",
-				"          TITLE_SK as decimal(10,0),",
-				"          TCONST as string,",
-				"          PRIMARY_TITLE as string,",
-				"          ORIGINAL_TITLE as string,",
-				"          START_YEAR as decimal(38,0),",
-				"          END_YEAR as decimal(38,0),",
-				"          TITLE_TYPE as string,",
-				"          IS_ADULT as boolean,",
-				"          DI_JOB_ID as string,",
-				"          DI_LOAD_DT as date",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     format: 'table') ~> source5",
-				"source(output(",
 				"          MOVIE_SK as decimal(10,0)",
 				"     ),",
 				"     allowSchemaDrift: true,",
@@ -115,31 +84,24 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1, source5 join(TITLETYPE == TITLE_TYPE,",
-				"     joinType:'inner',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join2",
-				"join2, FactMaxID join(1==1,",
+				"join1, FactMaxID join(1==1,",
 				"     joinType:'cross',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join5",
 				"join5 select(mapColumn(",
-				"          PARENTTCONST,",
-				"          SEASONNUMBER,",
-				"          EPISODENUMBER,",
-				"          TITLETYPE,",
-				"          RUNTIMEMINUTES,",
-				"          TCONST = source5@TCONST,",
+				"          PARENT_TCONST = PARENTTCONST,",
+				"          SEASON_NUMBER = SEASONNUMBER,",
+				"          EPISODE_NUMBER = EPISODENUMBER,",
+				"          DI_JOB_ID,",
+				"          DI_LOAD_DT,",
+				"          TCONST = source2@TCONST,",
+				"          RUNTIME_MINUTES = RUNTIMEMINUTES,",
 				"          MOVIE_SK",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(DI_JOB_ID = uuid(),",
-				"          DI_LOAD_DT = currentDate()) ~> derivedColumn1",
-				"derivedColumn1 filter(MOVIE_SK >100) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -150,11 +112,10 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     stageInsert: true,",
 				"     mapColumn(",
-				"          PARENT_TCONST = PARENTTCONST,",
-				"          SEASON_NUMBER = SEASONNUMBER,",
-				"          EPISODE_NUMBER = EPISODENUMBER,",
-				"          TITLE_TYPE = TITLETYPE,",
-				"          RUNTIME_MINUTES = RUNTIMEMINUTES,",
+				"          PARENT_TCONST,",
+				"          SEASON_NUMBER,",
+				"          EPISODE_NUMBER,",
+				"          RUNTIME_MINUTES,",
 				"          TCONST,",
 				"          MOVIE_SK,",
 				"          DI_JOB_ID,",
