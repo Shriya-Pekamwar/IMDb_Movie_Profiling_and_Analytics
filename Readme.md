@@ -34,8 +34,8 @@ https://developer.imdb.com/non-commercial-datasets/
 
 Additional Metadata
 
-1.Language codes: ISO 639 language codes
-1.Region codes: IMDb’s official country code listings
+1. Language codes: ISO 639 language codes
+2. Region codes: IMDb’s official country code listings
 
 | File Name                  | Description                                                     | Approx. Row Count |
 |----------------------------|-----------------------------------------------------------------|-------------------|
