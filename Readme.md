@@ -5,20 +5,25 @@ This project is an end-to-end BI implementation that involves transformation of 
 This solution presents transformation, staging, loading, and reporting using the following tools:
 ## Technologies Used
 
-![Azure Data Factory](https://img.shields.io/badge/Azure%20Data%20Factory-0078D4?style=for-the-badge&logo=azuredatafactory&logoColor=white)
-![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
-![Tableau](https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=tableau&logoColor=white)
+![Azure Data Factory](https://img.shields.io/badge/Azure%20Data%20Factory-0078D4?style=for-the-badge&logo=azuredatafactory&logoColor
+![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi
 ![ER Studio](https://img.shields.io/badge/ER%20Studio-0071bc?style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 ![YData Profiling](https://img.shields.io/badge/YData%20Profiling-ffd43b?style=for-the-badge&logo=python&logoColor=white)
 
-• ER Studio - Data Modeling
-• Azure ADF - ETL & Data Pipeline Automation
-• Alteryx/Python - Data Profiling & Cleaning
-• Snowflake - Data Warehouse
-• Power BI - Data Visualization
-
 **Challenge** 
-The IMDb dataset is extensive, unstructured, and spread across multiple files with nested or multi-valued fields. Analyzing this data directly for trends in movies, genres, cast, and crew is challenging due to inconsistencies in format and relationships between datasets.
+The IMDb dataset is extensive, unstructured, and spread across multiple files with nested or multi-valued fields. Analyzing this data directly for trends in movies, genres, cast, and crew is challenging due to inconsistencies in format and relationships between datasets
+
+To address these challenges, the project implements:
+
+1]Data Profiling using ydata-profiling and Alteryx to assess data quality
+2]Schema Design via ER/Studio to build normalized structures
+3]Data Cleaning through ADF Data Flows for data file
+4]Data Flattening using LATERAL FLATTEN in Snowflake for nested fields
+    Medallion Architecture:
+    Bronze: raw ingestion using ADF
+    Silver: transformation pipelines and flattening
+    Gold: fact/dimension models with surrogate keys and derived metrics
+5]Dashboards in Power BI to answer business requirements on professions, genres, titles, languages, regions, and trends
 
 
