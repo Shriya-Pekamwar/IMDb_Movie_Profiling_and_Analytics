@@ -1,12 +1,13 @@
-**IMDb BI Pipeline**
+## IMDb BI Pipeline
 
 This project is an end-to-end BI implementation that involves transformation of IMDb's non-commercial datasets into actionable business insights. The pipeline ingests, profiles, cleans, models, and visualizes over 200 million records using Azure Data Factory, Snowflake, and Tableau, all orchestrated under a medallion architecture. Multi-valued fields are flattened using Snowflake’s LATERAL FLATTEN, and key insights are delivered through interactive dashboards and reports.
 
 This solution presents transformation, staging, loading, and reporting using the following tools:
-## Technologies Used
+
+**Technologies Used**
 
 <!-- Badge Row: Each badge on the same line with proper Markdown! -->
-![Azure Data Factory](https://img.shields.io/badge/Azure%20Data%20Factory-0078D4?style=for-the-badge&logo=azuredatafactory&logoColor=white)
+![Azure Data Factory](https://img.shields.io/badge/Azure%20Data%20Factory-0078D4?style=for-the-badge&logo=azuredatafactory&logoColor=black)
 ![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 ![ER Studio](https://img.shields.io/badge/ER%20Studio-0071bc?style=for-the-badge)
@@ -18,24 +19,23 @@ The IMDb dataset is extensive, unstructured, and spread across multiple files wi
 
 To address these challenges, the project implements:
 
-1.Data Profiling using ydata-profiling and Alteryx to assess data quality
-2.Schema Design via ER/Studio to build normalized structures
-3.Data Cleaning through ADF Data Flows for data file
-4.Data Flattening using LATERAL FLATTEN in Snowflake for nested fields
-    -Medallion Architecture:
-        -Bronze: raw ingestion using ADF
-        -Silver: transformation pipelines and flattening
-        -Gold: fact/dimension models with surrogate keys and derived metrics
-5.Dashboards in Power BI to answer business requirements on professions, genres, titles, languages, regions, and trends
+* Data Profiling using ydata-profiling and Alteryx to assess data quality
+* Schema Design via ER/Studio to build normalized structures
+* Data Cleaning through ADF Data Flows for data file
+* Data Flattening using LATERAL FLATTEN in Snowflake for nested fields
+    * Medallion Architecture:
+        * Bronze: raw ingestion using ADF
+        * Silver: transformation pipelines and flattening
+        * Gold: fact/dimension models with surrogate keys and derived metrics
+* Dashboards in Power BI to answer business requirements on professions, genres, titles, languages, regions, and trends
 
 **Data Source**
 Dataset was sourced from IMDb's official non-commercial repository
 https://developer.imdb.com/non-commercial-datasets/
 
 Additional Metadata
-
-1. Language codes: ISO 639 language codes
-2. Region codes: IMDb’s official country code listings
+* Language codes: ISO 639 language codes
+* Region codes: IMDb’s official country code listings
 
 | File Name                  | Description                                                     | Approx. Row Count |
 |----------------------------|-----------------------------------------------------------------|-------------------|
@@ -46,6 +46,12 @@ Additional Metadata
 | `title.episode.tsv.gz`     | Details about TV series episodes                                 | 8,815,771         |
 | `title.principals.tsv.gz`  | Key cast and crew per title                                     | 90,984,102        |
 | `title.ratings.tsv.gz`     | IMDb ratings and number of votes per title                      | 1,536,010         |
+
+
+
+<img width="857" height="460" alt="Data_Profiling - ydata" src="https://github.com/user-attachments/assets/39b2c88f-33d1-4039-b29a-3c20083505fe" />
+
+<img width="857" height="460" alt="adf ss" src="https://github.com/user-attachments/assets/71b4a1c3-c054-4022-b03e-60649dbd1124" />
 
 
 
