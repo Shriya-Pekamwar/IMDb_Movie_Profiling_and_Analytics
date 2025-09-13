@@ -18,23 +18,24 @@ The IMDb dataset is extensive, unstructured, and spread across multiple files wi
 
 To address these challenges, the project implements:
 
-1]Data Profiling using ydata-profiling and Alteryx to assess data quality
-2]Schema Design via ER/Studio to build normalized structures
-3]Data Cleaning through ADF Data Flows for data file
-4]Data Flattening using LATERAL FLATTEN in Snowflake for nested fields
-    Medallion Architecture:
-    Bronze: raw ingestion using ADF
-    Silver: transformation pipelines and flattening
-    Gold: fact/dimension models with surrogate keys and derived metrics
-5]Dashboards in Power BI to answer business requirements on professions, genres, titles, languages, regions, and trends
+1.Data Profiling using ydata-profiling and Alteryx to assess data quality
+2.Schema Design via ER/Studio to build normalized structures
+3.Data Cleaning through ADF Data Flows for data file
+4.Data Flattening using LATERAL FLATTEN in Snowflake for nested fields
+    -Medallion Architecture:
+        -Bronze: raw ingestion using ADF
+        -Silver: transformation pipelines and flattening
+        -Gold: fact/dimension models with surrogate keys and derived metrics
+5.Dashboards in Power BI to answer business requirements on professions, genres, titles, languages, regions, and trends
 
 **Data Source**
 Dataset was sourced from IMDb's official non-commercial repository
 https://developer.imdb.com/non-commercial-datasets/
 
-Additional Metadata:
-Language codes: ISO 639 language codes
-Region codes: IMDb’s official country code listings
+Additional Metadata
+
+1.Language codes: ISO 639 language codes
+1.Region codes: IMDb’s official country code listings
 
 | File Name                  | Description                                                     | Approx. Row Count |
 |----------------------------|-----------------------------------------------------------------|-------------------|
