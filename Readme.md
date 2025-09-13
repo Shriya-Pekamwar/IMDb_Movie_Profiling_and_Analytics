@@ -39,12 +39,13 @@ Region codes: IMDb’s official country code listings
 | File Name                  | Description                                                     | Approx. Row Count |
 |----------------------------|-----------------------------------------------------------------|-------------------|
 | `name.basics.tsv.gz`       | Details about cast and crew members (name, professions, known titles)      | 14,195,120        |
-| `title.basics.tsv.gz`      | Core title data (title type, primary title, release year, runtime, genres) | 11,464,895        |
+| `title.basics.tsv.gz`      | Title data (title type, primary title, release year, runtime, genres) | 11,464,895        |
 | `title.akas.tsv.gz`        | Title aliases (international titles and translations)            | 51,409,880        |
 | `title.crew.tsv.gz`        | List of directors and writers associated with titles             | 11,464,885        |
 | `title.episode.tsv.gz`     | Details about TV series episodes                                 | 8,815,771         |
 | `title.principals.tsv.gz`  | Key cast and crew per title                                     | 90,984,102        |
 | `title.ratings.tsv.gz`     | IMDb ratings and number of votes per title                      | 1,536,010         |
+
 
 
 
